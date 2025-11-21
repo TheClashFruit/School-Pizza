@@ -1,7 +1,13 @@
 import express from 'express';
 import { z, ZodError } from 'zod';
 
-import { createPizza, deletePizza, getPizza, getPizzas, updatePizza } from '@/util/database';
+import {
+  createPizza,
+  deletePizza,
+  getPizza,
+  getPizzas,
+  updatePizza
+} from '@/models/pizza';
 
 import type { Request, Response } from 'express';
 
@@ -26,7 +32,7 @@ router.get('/', async (req: Request, res: Response) => {
         error: 404,
         message: 'A pizzák nem találhatóak.'
       });
-    
+
     return res.json(pizzas);
   } catch (e: unknown) {
     return res.status(500).json({
@@ -44,16 +50,17 @@ router.post('/', async (req: Request, res: Response) => {
 
     res.status(201).json({
       fazon: r.insertId,
-      pnev, par
+      pnev,
+      par
     });
   } catch (e: unknown) {
     if (e instanceof ZodError) {
       const details: Record<string, string> = {};
-      e.issues.forEach(issue => {
+      e.issues.forEach((issue) => {
         const field = issue.path.join('.');
         details[field] = issue.message;
       });
-      
+
       return res.status(400).json({
         error: 400,
         message: 'Validation Error',
@@ -76,7 +83,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         error: 404,
         message: 'A pizza nem található.'
       });
-    
+
     return res.json(pizza);
   } catch (e: unknown) {
     return res.status(500).json({
@@ -97,11 +104,11 @@ router.put('/:id', async (req: Request, res: Response) => {
   } catch (e: unknown) {
     if (e instanceof ZodError) {
       const details: Record<string, string> = {};
-      e.issues.forEach(issue => {
+      e.issues.forEach((issue) => {
         const field = issue.path.join('.');
         details[field] = issue.message;
       });
-      
+
       return res.status(400).json({
         error: 400,
         message: 'Validation Error',
@@ -124,7 +131,8 @@ router.delete('/:id', async (req: Request, res: Response) => {
       if (e.message.toLowerCase().includes('foreign key constraint'))
         return res.status(409).json({
           error: 409,
-          message: 'Ehez a futárhoz tartoznak más adatok ezért nem lehet kitörölni.'
+          message:
+            'Ehez a futárhoz tartoznak más adatok ezért nem lehet kitörölni.'
         });
     }
 
