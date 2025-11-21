@@ -7,10 +7,10 @@ import {
   newRendeles,
   deleteRendeles
 } from '@/models/rendeles';
-
-import type { Request, Response } from 'express';
 import { getTetelsForRendeles } from '@/models/tetel';
 import { getPizza } from '@/models/pizza';
+
+import type { Request, Response } from 'express';
 
 const router = express.Router();
 

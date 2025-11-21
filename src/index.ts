@@ -13,6 +13,7 @@ import futar from '@/routes/futar';
 import pizza from '@/routes/pizza';
 import vevo from '@/routes/vevo';
 import rendeles from '@/routes/rendeles';
+import tetel from '@/routes/tetel';
 
 import type { NextFunction, Request, Response } from 'express';
 
@@ -41,17 +42,25 @@ app.use(cors());
 
   app.use('/static', express.static(path.join(__dirname, '..', 'assets')));
 
-  logger.info(chalk.green('★'), 'Adding the `futar` router.');
+  logger.info(chalk.green('★'), 'Adding the', chalk.blue('`futar`'), 'router.');
   app.use('/api/futar', futar);
 
-  logger.info(chalk.green('★'), 'Adding the `pizza` router.');
+  logger.info(chalk.green('★'), 'Adding the', chalk.blue('`pizza`'), 'router.');
   app.use('/api/pizza', pizza);
 
-  logger.info(chalk.green('★'), 'Adding the `vevo` router.');
+  logger.info(chalk.green('★'), 'Adding the', chalk.blue('`vevo`'), 'router.');
   app.use('/api/vevo', vevo);
 
-  logger.info(chalk.green('★'), 'Adding the `rendeles` router.');
+  logger.info(
+    chalk.green('★'),
+    'Adding the',
+    chalk.blue('`rendeles`'),
+    'router.'
+  );
   app.use('/api/rendeles', rendeles);
+
+  logger.info(chalk.green('★'), 'Adding the', chalk.blue('`tetel`'), 'router.');
+  app.use('/api/tetel', tetel);
 
   // Not found.
   app.use((req: Request, res: Response) => {
