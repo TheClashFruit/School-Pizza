@@ -18,11 +18,11 @@ const router = express.Router();
 const Tetel = z.object({
   razon: z.number(),
   pazon: z.number(),
-  db: z.number().nonnegative()
+  db: z.number().min(1).max(20)
 });
 
 const TetelCount = z.object({
-  db: z.number().nonnegative()
+  db: z.number().min(1).max(20)
 });
 
 router.get('/:id', async (req: Request, res: Response) => {
