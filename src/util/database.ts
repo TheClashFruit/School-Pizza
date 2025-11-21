@@ -1,4 +1,6 @@
-import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import mysql, { ResultSetHeader } from 'mysql2/promise';
+
+import { Futar, Pizza, Vevo, Rendeles, Tetel } from '@/util/types';
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
@@ -14,24 +16,6 @@ const pool = mysql.createPool({
 
   decimalNumbers: true
 });
-
-interface Futar extends RowDataPacket {
-  fazon: number;
-  fnev: string;
-  ftel: string;
-}
-
-interface Pizza extends RowDataPacket {
-  pazon: number;
-  pnev: string;
-  par: number;
-}
-
-interface Vevo extends RowDataPacket {
-  vazon: number;
-  vnev: string;
-  vcim: string;
-}
 
 export const getFutar = async (id: number): Promise<Futar | undefined> => {
   const [result] = await pool.execute<Futar[]>('SELECT * FROM futar WHERE fazon = ?', [id]);
@@ -154,6 +138,45 @@ export const updateVevo = async (id: number, name?: string, address?: string): P
 
 export const deleteVevo = async (id: number): Promise<void> => {
   await pool.execute('DELETE FROM vevo WHERE vazon = ?', [id]);
+};
+
+export const getRendeles = async (id: number): Promise<Rendeles | undefined> => {
+  const [result] = await pool.execute<Rendeles[]>('SELECT * FROM rendeles WHERE razon = ?', [id]);
+
+  return result[0];
+};
+
+export const getRendelesek = async (): Promise<Rendeles[] | undefined> => {
+  const [result] = await pool.execute<Rendeles[]>('SELECT * FROM rendeles');
+
+  return result;
+};
+
+export const newRendeles = async (vid: number, fid: number): Promise<ResultSetHeader> => {
+  const [result] = await pool.execute('INSERT INTO rendeles (vazon, fazon, idopont) VALUES (?, ?, ?)', [vid, fid, new Date()])
+
+  return (result as ResultSetHeader);
+}
+
+export const deleteRendeles = async (id: number): Promise<ResultSetHeader> => {
+  await deleteTetelsForRendeles(id);
+  const [result] = await pool.execute('DELETE FROM rendeles WHERE razon = ?', [id]);
+
+  return (result as ResultSetHeader);
+}
+
+// Egy adott rendelés tételeinek törlése.
+export const deleteTetelsForRendeles = async (id: number): Promise<ResultSetHeader> => {
+  const [result] = await pool.execute('DELETE FROM tetel WHERE razon = ?', [id]);
+
+  return (result as ResultSetHeader);
+}
+
+// Egy adott rendelés tételeinek lekérése.
+export const getTetelsForRendeles =  async (id: number): Promise<Tetel[] | undefined> => {
+  const [result] = await pool.execute<Tetel[]>('SELECT * FROM tetel WHERE razon = ?', [id]);
+
+  return result;
 };
 
 export default pool;
