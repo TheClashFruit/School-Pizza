@@ -7,11 +7,10 @@ import chalk from 'chalk';
 import path from 'node:path';
 
 import { Logger, Level } from '@/util/logger';
-
 import version from '@/util/version';
-import db from '@/util/database';
 
 import futar from '@/routes/futar';
+import pizza from '@/routes/pizza';
 
 import type { NextFunction, Request, Response } from 'express';
 
@@ -40,8 +39,11 @@ app.use(cors());
 
   app.use('/static', express.static(path.join(__dirname, '..', 'assets')));
 
-  logger.info(chalk.green('★'), 'Adding the `futar` router.')
+  logger.info(chalk.green('★'), 'Adding the `futar` router.');
   app.use('/api/futar', futar);
+
+  logger.info(chalk.green('★'), 'Adding the `pizza` router.');
+  app.use('/api/pizza', pizza);
 
   // Not found.
   app.use((req: Request, res: Response) => {
