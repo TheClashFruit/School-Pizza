@@ -12,6 +12,7 @@ import version from '@/util/version';
 import futar from '@/routes/futar';
 import pizza from '@/routes/pizza';
 import vevo from '@/routes/vevo';
+import rendeles from '@/routes/rendeles';
 
 import type { NextFunction, Request, Response } from 'express';
 
@@ -48,6 +49,9 @@ app.use(cors());
 
   logger.info(chalk.green('★'), 'Adding the `vevo` router.');
   app.use('/api/vevo', vevo);
+
+  logger.info(chalk.green('★'), 'Adding the `rendeles` router.');
+  app.use('/api/rendeles', rendeles);
 
   // Not found.
   app.use((req: Request, res: Response) => {

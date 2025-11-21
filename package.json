@@ -42,6 +42,6 @@
     "typescript-eslint": "^8.47.0"
   },
   "lint-staged": {
-    "*/**.{js|ts}": "your-cmd"
+    "**/*.{js,ts}": "pnpm lint:fix"
   }
 }
