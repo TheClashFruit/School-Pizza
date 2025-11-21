@@ -1,4 +1,4 @@
-# Fruits (Gyümölcsök)
+# Pizza
 
 ## Futtatás
 
