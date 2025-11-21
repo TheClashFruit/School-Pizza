@@ -4,6 +4,8 @@ import express from 'express';
 import cors from 'cors';
 import chalk from 'chalk';
 
+import path from 'node:path';
+
 import { Logger, Level } from '@/util/logger';
 
 import version from '@/util/version';
@@ -35,6 +37,8 @@ app.use(cors());
 
 (async () => {
   const startTimestamp = Date.now();
+
+  app.use('/static', express.static(path.join(__dirname, '..', 'assets')));
 
   logger.info(chalk.green('★'), 'Adding the `futar` router.')
   app.use('/api/futar', futar);
